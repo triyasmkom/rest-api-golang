@@ -30,9 +30,15 @@ go get -u gorm.io/driver/mysql
 # install env
 go get github.com/joho/godotenv
 
+# bcrypt
+go get golang.org/x/crypto/bcrypt
+
+# jwt
+"github.com/labstack/echo-jwt/v4"
+
 ```
 
 ## Dokumentasi
 
-Postman :
+Postman : https://documenter.getpostman.com/view/26067457/2s9YC7RWBR
 

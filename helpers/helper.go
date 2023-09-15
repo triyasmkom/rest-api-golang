@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"github.com/joho/godotenv"
+	"golang.org/x/crypto/bcrypt"
 	"os"
 )
 
@@ -9,7 +10,7 @@ func GetPort() string {
 	port := os.Getenv("PORT")
 
 	if port == "" {
-		return ":8000"
+		return ":8081"
 	}
 
 	return ":" + port
@@ -20,4 +21,24 @@ func LoadEnv() {
 	if err != nil {
 		panic("Failed load env file")
 	}
+}
+
+func HashPassword(password string) string {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		panic("Error hashing password")
+	}
+	return string(hash)
+}
+
+func VerifyPassword(password string, hashPassword string) bool {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		panic("Error hashing password")
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(hashPassword), hash)
+	if err != nil {
+		return false
+	}
+	return true
 }
