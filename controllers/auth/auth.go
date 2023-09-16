@@ -11,16 +11,14 @@ import (
 func Register(context echo.Context) error {
 	body := new(request.Register)
 	context.Bind(body)
-
-	save := s_user.SaveUser(body)
+	save := s_user.Register(body)
 	return context.JSON(http.StatusCreated, save)
 }
 func Login(context echo.Context) error {
-	return context.JSON(http.StatusCreated, response.Response{
-		Status:  true,
-		Message: "Login success",
-		Data:    response.Token{},
-	})
+	body := new(request.Login)
+	context.Bind(body)
+	save := s_user.Login(body)
+	return context.JSON(http.StatusCreated, save)
 }
 
 func Logout(context echo.Context) error {

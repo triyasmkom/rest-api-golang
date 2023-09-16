@@ -1,14 +1,19 @@
 package database
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"time"
+)
 
 type Address struct {
-	gorm.Model
-	Id        uint   `json:"id" gorm:"primaryKey autoIncrement"`
-	Alamat    string `json:"alamat"`
-	Kelurahan string `json:"kelurahan"`
-	Kecamatan string `json:"kecamatan"`
-	Kabupaten string `json:"kabupaten"`
-	Provinsi  string `json:"provinsi"`
-	UserId    uint
+	Id        uint            `json:"id,omitempty" gorm:"primaryKey autoIncrement"`
+	Alamat    string          `json:"alamat,omitempty"`
+	Kelurahan string          `json:"kelurahan,omitempty"`
+	Kecamatan string          `json:"kecamatan,omitempty"`
+	Kabupaten string          `json:"kabupaten,omitempty"`
+	Provinsi  string          `json:"provinsi,omitempty"`
+	UserId    uint            `json:"userId,omitempty"`
+	CreatedAt *time.Time      `json:"createdAt,omitempty"`
+	UpdatedAt *time.Time      `json:"updatedAt,omitempty"`
+	DeletedAt *gorm.DeletedAt `gorm:"index" json:"deletedAt,omitempty"`
 }

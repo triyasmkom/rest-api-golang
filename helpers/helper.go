@@ -1,9 +1,12 @@
 package helpers
 
 import (
+	"fmt"
 	"github.com/joho/godotenv"
 	"golang.org/x/crypto/bcrypt"
 	"os"
+	"server-golang/models/response"
+	"strconv"
 )
 
 func GetPort() string {
@@ -28,14 +31,19 @@ func HashPassword(password string) string {
 	return string(hash)
 }
 
-func VerifyPassword(password string, hashPassword string) bool {
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+func VerifyPassword(password string, hashPassword string) (response.Response, error) {
+	err := bcrypt.CompareHashAndPassword([]byte(hashPassword), []byte(password))
 	if err != nil {
+		return response.Response{}, err
+	}
+	return response.Response{}, nil
+}
+
+func Debug() bool {
+	var debug, err = strconv.ParseBool(os.Getenv("DEBUG"))
+	if err != nil {
+		fmt.Println("Error Debug Variabel: ", err)
 		return false
 	}
-	err = bcrypt.CompareHashAndPassword([]byte(hashPassword), hash)
-	if err != nil {
-		return false
-	}
-	return true
+	return debug
 }

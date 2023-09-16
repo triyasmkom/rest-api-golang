@@ -1,31 +1,34 @@
 package middleware
 
 import (
-	"github.com/golang-jwt/jwt/v4"
-	"os"
+	"fmt"
+	"github.com/dgrijalva/jwt-go"
 	"server-golang/models/database"
+	"server-golang/models/response"
 	"time"
 )
 
-type jwtClaim struct {
-	UserId uint   `json:"user_id"`
-	Email  string `json:"email"`
-	jwt.RegisteredClaims
-}
+func GenerateJwt(data database.User) (response.Token, error) {
+	iat := time.Now()
+	exp := time.Now().Add(time.Hour * 72)
+	claims := jwt.MapClaims{
+		"email":    data.Email,
+		"username": data.Username,
+		"exp":      exp.Unix(),
+		"iat":      iat.Unix(),
+	}
 
-func GenerateJwt(data database.User) (string, error) {
-	claims := &jwtClaim{
-		data.Id,
-		data.Email,
-		jwt.RegisteredClaims{
-			IssuedAt: jwt.NewNumericDate(time.Now()),
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 72)),
-		},
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	secretKey := "secret"
+	result, err := token.SignedString([]byte(secretKey))
+
+	if err != nil {
+		fmt.Println("Error Generate Jwt: ", err)
+		return response.Token{}, err
 	}
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
-	result, err := token.SignedString([]byte(os.Getenv("JWT_KEY")))
-	if err != nil{
-		return "", err
-	}
-	return result, nil
+	return response.Token{
+		Token:   result,
+		Created: iat.String(),
+		Expired: exp.String(),
+	}, nil
 }

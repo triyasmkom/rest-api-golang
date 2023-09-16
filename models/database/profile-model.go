@@ -1,12 +1,17 @@
 package database
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"time"
+)
 
 type Profile struct {
-	gorm.Model
-	Id          uint   `json:"id" gorm:"primaryKey autoIncrement"`
-	FirstName   string `json:"firstName"`
-	LastName    string `json:"lastName"`
-	PhoneNumber string `json:"phoneNumber"`
-	UserId      uint
+	Id          uint            `json:"id,omitempty" gorm:"primaryKey autoIncrement"`
+	FirstName   string          `json:"firstName,omitempty"`
+	LastName    string          `json:"lastName,omitempty"`
+	PhoneNumber string          `json:"phoneNumber,omitempty"`
+	UserId      uint            `json:"userId,omitempty"`
+	CreatedAt   *time.Time      `json:"createdAt,omitempty"`
+	UpdatedAt   *time.Time      `json:"updatedAt,omitempty"`
+	DeletedAt   *gorm.DeletedAt `gorm:"index" json:"deletedAt,omitempty"`
 }

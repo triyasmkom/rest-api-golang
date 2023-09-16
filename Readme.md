@@ -34,7 +34,10 @@ go get github.com/joho/godotenv
 go get golang.org/x/crypto/bcrypt
 
 # jwt
-"github.com/labstack/echo-jwt/v4"
+go get "github.com/labstack/echo-jwt/v4"
+
+# menghapus package
+go clean -i github.com/codegangsta/gin
 
 ```
 
@@ -42,3 +45,26 @@ go get golang.org/x/crypto/bcrypt
 
 Postman : https://documenter.getpostman.com/view/26067457/2s9YC7RWBR
 
+## Menjalankan program 
+
+### Menjalankan file
+
+```shell
+go run main.go
+```
+
+### Auto restart
+
+```shell
+# Download package
+go get github.com/codegangsta/gin
+
+# Mengguankannya
+gin -i run main.go
+
+# Menghentikan Sementara
+ctrl+c
+
+# Menghapus permanen
+go clean -i github.com/codegangsta/gin
+```
