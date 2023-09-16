@@ -24,17 +24,14 @@ func LoadEnv() {
 }
 
 func HashPassword(password string) string {
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil {
-		panic("Error hashing password")
-	}
+	hash, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	return string(hash)
 }
 
 func VerifyPassword(password string, hashPassword string) bool {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		panic("Error hashing password")
+		return false
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(hashPassword), hash)
 	if err != nil {
