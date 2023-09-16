@@ -67,9 +67,37 @@ func Register(body *request.Register) interface{} {
 	}
 }
 func Login(body *request.Login) interface{} {
+
 	// get user by email
 	var getUser model.User
-	mysql.DB.Where("email = ?", body.Email).First(&getUser)
+	getUserByEmail := mysql.DB.Where("email = ?", body.Email).First(&getUser)
+	if getUserByEmail.Error != nil {
+		if helper.Debug() {
+			fmt.Println(getUserByEmail.Error)
+		}
+
+		return response.Response{
+			Status: false,
+			Error:  "Wrong Email or Password",
+		}
+	}
+
+	var user model.User
+	userID := getUser.Id
+
+	// Menggunakan Preload untuk mengambil data roles untuk user dengan ID tertentu
+	result := mysql.DB.Preload("Roles").First(&user, userID)
+
+	if result.Error != nil {
+		if helper.Debug() {
+			fmt.Println(result.Error)
+		}
+
+		return response.Response{
+			Status: false,
+			Error:  "Wrong Email or Password",
+		}
+	}
 
 	// Validasi password
 	_, err := helper.VerifyPassword(body.Password, getUser.Password)
@@ -86,7 +114,7 @@ func Login(body *request.Login) interface{} {
 	}
 
 	// Generate Jwt
-	token, errToken := jwt.GenerateJwt(getUser)
+	token, errToken := jwt.GenerateJwt(user)
 	if errToken != nil {
 
 		if helper.Debug() {
