@@ -2,6 +2,9 @@ package services
 
 import (
 	"fmt"
+	jwt2 "github.com/dgrijalva/jwt-go"
+	"github.com/labstack/echo/v4"
+	"reflect"
 	mysql "server-golang/configs"
 	helper "server-golang/helpers"
 	jwt "server-golang/middleware"
@@ -10,7 +13,7 @@ import (
 	"server-golang/models/response"
 )
 
-func Register(body *request.Register) interface{} {
+func Register(body *request.Register) response.Response {
 	data := model.User{
 		Email:    body.Email,
 		Password: helper.HashPassword(body.Password),
@@ -66,7 +69,7 @@ func Register(body *request.Register) interface{} {
 		Data:    token,
 	}
 }
-func Login(body *request.Login) interface{} {
+func Login(body *request.Login) response.Response {
 
 	// get user by email
 	var getUser model.User
@@ -131,5 +134,28 @@ func Login(body *request.Login) interface{} {
 		Status:  true,
 		Message: "Login User Success",
 		Data:    token,
+	}
+}
+func AddProfile(context echo.Context) response.Response {
+	body := new(request.Login)
+	context.Bind(body)
+	ctxUser := context.Get("users")
+	//var getUser response.Claims
+	if user, ok := ctxUser.(jwt2.MapClaims); ok {
+		email := user["email"].(string)
+		fmt.Println("gggggg", user)
+		fmt.Println("ssssss", email)
+	}
+
+	fmt.Println("Add profile", reflect.TypeOf(ctxUser))
+	var data response.Data
+	data.Email = body.Email
+	//var user model.User
+	//userID := getUser.Id
+
+	return response.Response{
+		Status:  true,
+		Message: "Login User Success",
+		Data:    data,
 	}
 }

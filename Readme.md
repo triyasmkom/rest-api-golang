@@ -68,3 +68,17 @@ ctrl+c
 # Menghapus permanen
 go clean -i github.com/codegangsta/gin
 ```
+
+
+## Catatan Koding
+
+### Akses Interface
+
+```
+var email string
+
+if value, ok := verifyJwt.Data.(map[string]interface{}); ok {
+    email = value["email"].(string)
+}
+verifyUser := VerifyUser(email)
+```

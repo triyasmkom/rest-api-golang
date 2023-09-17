@@ -21,11 +21,26 @@ func Login(context echo.Context) error {
 	return context.JSON(http.StatusCreated, save)
 }
 
+// not use
 func Logout(context echo.Context) error {
 
 	return context.JSON(http.StatusCreated, response.Response{
 		Status:  true,
 		Message: "Logout success",
-		Data:    nil,
+		Data:    response.Data{},
+	})
+}
+
+func AddProfile(context echo.Context) error {
+	addProfile := s_user.AddProfile(context)
+	return context.JSON(http.StatusCreated, addProfile)
+}
+
+func UpdateProfile(context echo.Context) error {
+
+	return context.JSON(http.StatusCreated, response.Response{
+		Status:  true,
+		Message: "Update success",
+		Data:    response.Data{},
 	})
 }
