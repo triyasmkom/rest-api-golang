@@ -49,8 +49,38 @@ Postman : https://documenter.getpostman.com/view/26067457/2s9YC7RWBR
 
 ### Menjalankan file
 
+#### 1. Silakan clone di  git@github.com:triyasmkom/server-golang.git
+#### 2. Setup file ```.env```, silakan copy dari file ```.env.sample```
+
+```env
+
+DB_USER=username
+DB_PASSWORD=password
+DB_HOST=host
+DB_PORT=port
+DB_NAME=database_name
+PORT=10000
+JWT_KEY=secret
+JWT_EXP=72
+DEBUG=true
+
+```
+
+#### 3. Buka dokumentasi postman dan lihat API yang tersedia
+
+#### 4. Jalankan perintah berikut ini
+
 ```shell
+# untuk reload package
+go mod tidy
+
+# untuk menjalankan file
 go run main.go
+
+# untuk help
+go help
+
+go mod help
 ```
 
 ### Auto restart
