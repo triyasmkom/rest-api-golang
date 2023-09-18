@@ -22,4 +22,6 @@ func Init(app *echo.Echo) {
 	app.POST("/api/users/address", mid.JwtAuth(user.AddAddress))
 	app.PUT("/api/users/address", mid.JwtAuth(user.UpdateAddress))
 
+	app.GET("/api/users", mid.JwtAuth(user.GetUser))
+
 }

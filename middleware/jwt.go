@@ -183,7 +183,6 @@ func JwtAuth(next echo.HandlerFunc) echo.HandlerFunc {
 
 		// Verify Users
 		verifyUser := VerifyUser(email)
-		fmt.Println(verifyUser.Status, email)
 		if !verifyUser.Status {
 			if helper.Debug() {
 				fmt.Println("Error Jwt Auth:  User not found")

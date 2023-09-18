@@ -225,3 +225,46 @@ func UpdateAddress(context echo.Context) response.Response {
 		},
 	}
 }
+
+func GetUser(context echo.Context) response.Response {
+
+	//var getUser response.Claims
+	var email string
+	ctxUser := context.Get("users")
+	if user, ok := ctxUser.(jwt2.MapClaims); ok {
+		email = user["email"].(string)
+	}
+
+	// get user by email
+	var getUser model.User
+	getUserByEmail := mysql.DB.Where("email = ?", email).First(&getUser)
+	mysql.DB.Preload("Profile").First(&getUser, getUser.Id)
+	mysql.DB.Preload("Address").First(&getUser, getUser.Id)
+	if getUserByEmail.Error != nil {
+		if helper.Debug() {
+			fmt.Println(getUserByEmail.Error)
+		}
+
+		return response.Response{
+			Status: false,
+			Error:  "User not found",
+		}
+	}
+	fmt.Println(getUser.Address.Kelurahan)
+
+	return response.Response{
+		Status:  true,
+		Message: "Get Data User Success",
+		Data: response.Data{
+			Username:  getUser.Username,
+			Email:     getUser.Email,
+			FirstName: getUser.Profile.FirstName,
+			LastName:  getUser.Profile.LastName,
+			Alamat:    getUser.Address.Alamat,
+			Kelurahan: getUser.Address.Kelurahan,
+			Kecamatan: getUser.Address.Kecamatan,
+			Kabupaten: getUser.Address.Kabupaten,
+			Provinsi:  getUser.Address.Provinsi,
+		},
+	}
+}

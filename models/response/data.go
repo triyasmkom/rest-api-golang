@@ -16,9 +16,9 @@ type Data struct {
 	LastName    string `json:"lastName,omitempty"`
 	PhoneNumber string `json:"phoneNumber,omitempty"`
 
-	Alamat    string `json:"alamat,omitempty"`
-	Kelurahan string `json:"kelurahan,omitempty"`
-	Kecamatan string `json:"kecamatan,omitempty"`
-	Kabupaten string `json:"kabupaten,omitempty"`
-	Provinsi  string `json:"provinsi,omitempty"`
+	Alamat    string `json:"address,omitempty"`
+	Kelurahan string `json:"ward,omitempty"`
+	Kecamatan string `json:"sub_district,omitempty"`
+	Kabupaten string `json:"regency,omitempty"`
+	Provinsi  string `json:"province,omitempty"`
 }

@@ -39,3 +39,13 @@ func UpdateAddress(context echo.Context) error {
 
 	return context.JSON(http.StatusOK, update)
 }
+
+func GetUser(context echo.Context) error {
+	update := s_user.GetUser(context)
+
+	if !update.Status {
+		return context.JSON(http.StatusBadRequest, update)
+	}
+
+	return context.JSON(http.StatusOK, update)
+}

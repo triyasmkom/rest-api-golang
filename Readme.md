@@ -41,11 +41,11 @@ go clean -i github.com/codegangsta/gin
 
 ```
 
-## Dokumentasi
+## 2. Dokumentasi
 
 Postman : https://documenter.getpostman.com/view/26067457/2s9YC7RWBR
 
-## Menjalankan program 
+## 3. Menjalankan program 
 
 ### Menjalankan file
 
@@ -100,7 +100,7 @@ go clean -i github.com/codegangsta/gin
 ```
 
 
-## Catatan Koding
+## 4. Catatan Koding
 
 ### Akses Interface
 
@@ -112,3 +112,9 @@ if value, ok := verifyJwt.Data.(map[string]interface{}); ok {
 }
 verifyUser := VerifyUser(email)
 ```
+
+
+## 5 Referensi
+
+- framework: https://echo.labstack.com/
+- orm: https://gorm.io/index.html
